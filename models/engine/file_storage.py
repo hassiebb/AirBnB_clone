@@ -46,15 +46,11 @@ class FileStorage:
         return classes
 
     def reload(self):
-        """Reloads the stored objects"""
-        if not os.path.isfile(FileStorage.__file_path):
-            return
+     """Reloads the stored objects"""
+     if os.path.isfile(FileStorage.__file_path):
         with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
             obj_dict = json.load(f)
-            obj_dict = {k: self.classes()[v["__class__"]](**v)
-                        for k, v in obj_dict.items()}
-            # TODO: should this overwrite or insert?
-            FileStorage.__objects = obj_dict
+            FileStorage.__objects = {k: self.classes()[v["__class__"]](**v) for k, v in obj_dict.items()}
 
     def attributes(self):
      """Returns the valid attributes and their types for each classname"""
